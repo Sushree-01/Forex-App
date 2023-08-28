@@ -24,7 +24,7 @@ The Forex App is designed to provide users with real-time information about curr
 # Crypto page
 ![Screenshot 2023-08-28 131016](https://github.com/Sushree-01/flying-word-4664/assets/119348515/cfd76d69-0122-4f51-989f-163f9c21fb22)
 
-# Pagination page
+
 ![Screenshot 2023-08-28 131757](https://github.com/Sushree-01/flying-word-4664/assets/119348515/4e14ce16-a8c3-492d-b2d3-589cbc0d1b09)
 
 # SignUp page
