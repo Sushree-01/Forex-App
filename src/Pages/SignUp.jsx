@@ -7,44 +7,61 @@ import {
   Input,
   Heading,
   Stack,
-  Select
+  Select,
+  useToast,
 } from '@chakra-ui/react';
 import axios from 'axios';
-// {
-//   "name": "Payal",
-//   "email": "payal@gmail.com",
-//   "password": "121345",
-//   "age": "23",
-//   "profression": "student"
-//   }
+import { useNavigate } from 'react-router-dom';
+
 let obj = {
-  name: "",
-  email: "",
-  password: "",
-  age: "",
-  profression: ""  
+  name: '',
+  email: '',
+  password: '',
+  age: '',
+  profession: '',
 };
 
 export const SignUp = () => {
   let [data, setData] = useState(obj);
+  let navigate = useNavigate();
+  const toast = useToast();
 
   let handleChangeSignUp = (e) => {
     let { name, value } = e.target;
     setData({ ...data, [name]: value });
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`https://sushreebackendapi.onrender.com/data`, data)
-  .then((res) => {
-    console.log("Response:", res.data);
-    alert("Signup Successful");
-    setData(obj);
-  })
-  .catch((err) => {
-    console.error("Error:", err);
-    alert("Invalid Credentials");
-  });
+    axios
+      .post(`https://sushreebackendapi.onrender.com/data`, data)
+      .then((res) => {
+        console.log('Response:', res.data);
+
+        // Show toast notification for successful signup
+        toast({
+          title: 'Signup Successful',
+          status: 'success',
+          duration: 6000,
+          isClosable: true,
+          position: 'top', 
+        });
+
+        setData(obj);
+        navigate('/');
+      })
+      .catch((err) => {
+        console.error('Error:', err);
+
+        // Show toast notification for invalid credentials
+        toast({
+          title: 'Invalid Credentials',
+          status: 'error',
+          duration: 6000,
+          isClosable: true,
+          position: 'top', 
+        });
+      });
   };
 
   return (
@@ -52,23 +69,21 @@ export const SignUp = () => {
       <Heading>Sign Up</Heading>
       <form onSubmit={handleSubmit}>
         <Stack spacing={4} mt={4}>
-
-        <FormControl id="name">
-            <FormLabel>name</FormLabel>
+          <FormControl id="name">
+            <FormLabel>Name</FormLabel>
             <Input
-              type="name"
-              name="name"  
+              type="text"
+              name="name"
               value={data.name}
               onChange={handleChangeSignUp}
               required
             />
           </FormControl>
-
           <FormControl id="email">
             <FormLabel>Email</FormLabel>
             <Input
               type="email"
-              name="email" 
+              name="email"
               value={data.email}
               onChange={handleChangeSignUp}
               required
@@ -78,7 +93,7 @@ export const SignUp = () => {
             <FormLabel>Password</FormLabel>
             <Input
               type="password"
-              name="password"  
+              name="password"
               value={data.password}
               onChange={handleChangeSignUp}
               required
@@ -87,19 +102,19 @@ export const SignUp = () => {
           <FormControl id="age">
             <FormLabel>Age</FormLabel>
             <Input
-              type="number"  
-              name="age" 
+              type="number"
+              name="age"
               value={data.age}
               onChange={handleChangeSignUp}
               required
             />
           </FormControl>
-          <FormControl id="profression">
+          <FormControl id="profession">
             <FormLabel>Profession</FormLabel>
             <Select
-              name="profression"  
-              value={data.profression}
-              onChange={handleChangeSignUp} 
+              name="profession"
+              value={data.profession}
+              onChange={handleChangeSignUp}
               required
             >
               <option value="">---</option>
