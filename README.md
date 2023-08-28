@@ -11,6 +11,10 @@ The Forex App is designed to provide users with real-time information about curr
 - Currency conversion calculator
 - Historical exchange rate data
 - User-friendly interface
+## TechStack used
+<h4>Backend-json Server,Deploy Api on Render.com</h4> 
+<h4>Frontend-HTML,CSS,JS,REACT,ChakraUI</h4>
+
 
 # DashBoard page
 ![Screenshot 2023-08-28 130636](https://github.com/Sushree-01/flying-word-4664/assets/119348515/2b22128c-98ac-460f-9cb0-b19ccdd23a54)
