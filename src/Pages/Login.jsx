@@ -5,9 +5,11 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Link,
   Heading,
   Stack,
-  useToast, // Import the useToast hook
+  useToast,
+  Text,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -16,13 +18,14 @@ import { AuthContext } from '../Context/AuthContextProvider';
 let obj = {
   email: '',
   password: '',
+  name: '',
 };
 
 export const Login = () => {
   let [data, setData] = useState(obj);
   let navigate = useNavigate();
   const { loginUser, authState } = useContext(AuthContext);
-  const toast = useToast(); // Initialize the useToast hook
+  const toast = useToast();
 
   let handleChangeLogIn = (e) => {
     let { name, value } = e.target;
@@ -32,37 +35,42 @@ export const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`https://sushreebackendapi.onrender.com/data`, data)
-      .then((res) => {
-        console.log('Response:', res.data);
+    .post(`https://sushreebackendapi.onrender.com/data`, data)
+    .then((res) => {
+      console.log('Response:', res.data);
 
-        // Show toast notification for successful login
-        toast({
-          title: 'Login Successful',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-          position: 'top', 
-        });
+      // Extract name from the API response
+      const { name } = res.data;
 
-        // Update authentication state here
-        loginUser();
-
-        setData(obj);
-        navigate('/');
-      })
-      .catch((err) => {
-        console.error('Error:', err);
-
-        // Show toast notification for invalid credentials
-        toast({
-          title: 'Invalid Credentials',
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-          position: 'top', 
-        });
+      // Show toast notification for successful login
+      toast({
+        title: 'Login Successful',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top',
       });
+
+      // Update authentication state here
+      loginUser();
+
+      setData(obj);
+      console.log(name); // Debug: Check if name is present and correct
+      localStorage.setItem('username', JSON.stringify(name)); // Store name in local storage
+      navigate('/');
+    })
+    .catch((err) => {
+      console.error('Error:', err);
+
+      // Show toast notification for invalid credentials
+      toast({
+        title: 'Invalid Credentials',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top',
+      });
+    });
   };
 
   return (
@@ -70,6 +78,17 @@ export const Login = () => {
       <Heading>Login</Heading>
       <form onSubmit={handleSubmit}>
         <Stack spacing={4} mt={4}>
+       
+       < FormControl id="name">
+            <FormLabel>Name</FormLabel>
+            <Input
+              name="name"
+              type="name"
+              value={data.name}
+              onChange={handleChangeLogIn}
+              required
+            />
+          </FormControl>
           <FormControl id="email">
             <FormLabel>Email</FormLabel>
             <Input
@@ -93,6 +112,9 @@ export const Login = () => {
           <Button type="submit" colorScheme="teal">
             Login
           </Button>
+          <Text mt={2} textAlign="center" fontSize="md" color="black.500">
+            Don't have an account? <Link to="/signup">Sign up</Link>
+          </Text>
         </Stack>
       </form>
     </Box>

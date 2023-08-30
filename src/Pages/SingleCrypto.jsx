@@ -29,9 +29,7 @@ function SingleCrypto({ coinData, isOpen, onClose }) {
                     <Text>All Time High (ATH): ${coinData.ath}</Text>
                     <Text>Last Updated: {new Date(coinData.last_updated * 1000).toLocaleString()}</Text>
                 </ModalBody>
-                <ModalFooter justifyContent="center">
-                    <Text fontSize="sm">Data provided by CoinGecko API</Text>
-                </ModalFooter>
+              
             </ModalContent>
         </Modal>
     );
